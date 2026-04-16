@@ -780,8 +780,8 @@
    Cria um projeto em https://supabase.com (grátis)
    e coloca o URL e a chave anónima aqui.
    ═══════════════════════════════════════════════════════════ */
-const SUPABASE_URL      = 'https://tkkujlbpipecifnttbjw.supabase.co';  // ← o teu URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRra3VqbGJwaXBlY2lmbnR0Ymp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNTIzNTUsImV4cCI6MjA5MTgyODM1NX0.t0xsnMqKsbbQGzJQiL42KK-rixYilME2vxEbiDsyiDk'; // ← a tua chave
+const SUPABASE_URL      = 'https://ckighonenakuruscgvps.supabase.co';  // ← o teu URL
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWdob25lbmFrdXJ1c2NndnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyOTE5ODIsImV4cCI6MjA5MTg2Nzk4Mn0.y3O-xbECIrMTj8Qg_9EI7a5BuepzzuhAVZLyKjGw3ow'; // ← a tua chave
 
 /* ─── Estado da app ───────────────────────────────────────── */
 let stations   = [];
@@ -801,7 +801,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initSupabase() {
   // Verifica se as credenciais foram configuradas
-  if (SUPABASE_URL === 'https://tkkujlbpipecifnttbjw.supabase.co' || SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRra3VqbGJwaXBlY2lmbnR0Ymp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyNTIzNTUsImV4cCI6MjA5MTgyODM1NX0.t0xsnMqKsbbQGzJQiL42KK-rixYilME2vxEbiDsyiDk') {
+  if (SUPABASE_URL === 'https://ckighonenakuruscgvps.supabase.co' || SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWdob25lbmFrdXJ1c2NndnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyOTE5ODIsImV4cCI6MjA5MTg2Nzk4Mn0.y3O-xbECIrMTj8Qg_9EI7a5BuepzzuhAVZLyKjGw3ow') {
     console.warn('Supabase não configurado. A usar dados de demonstração.');
     loadDemoData();
     return;
