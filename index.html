@@ -780,8 +780,8 @@
    Cria um projeto em https://supabase.com (grátis)
    e coloca o URL e a chave anónima aqui.
    ═══════════════════════════════════════════════════════════ */
-const SUPABASE_URL      = 'https://ckighonenakuruscgvps.supabase.co';  // ← o teu URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWdob25lbmFrdXJ1c2NndnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyOTE5ODIsImV4cCI6MjA5MTg2Nzk4Mn0.y3O-xbECIrMTj8Qg_9EI7a5BuepzzuhAVZLyKjGw3ow'; // ← a tua chave
+const SUPABASE_URL      = 'https://ckighonenakuruscgvps.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWdob25lbmFrdXJ1c2NndnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyOTE5ODIsImV4cCI6MjA5MTg2Nzk4Mn0.y3O-xbECIrMTj8Qg_9EI7a5BuepzzuhAVZLyKjGw3ow';
 
 /* ─── Estado da app ───────────────────────────────────────── */
 let stations   = [];
@@ -800,8 +800,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initSupabase() {
-  // Verifica se as credenciais foram configuradas
-  if (SUPABASE_URL === 'https://ckighonenakuruscgvps.supabase.co' || SUPABASE_ANON_KEY === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNraWdob25lbmFrdXJ1c2NndnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyOTE5ODIsImV4cCI6MjA5MTg2Nzk4Mn0.y3O-xbECIrMTj8Qg_9EI7a5BuepzzuhAVZLyKjGw3ow') {
+  // Tenta sempre conectar; usa modo demo só se falhar completamente
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY ||
+      SUPABASE_URL === 'SUPABASE_URL_AQUI' || SUPABASE_ANON_KEY === 'SUPABASE_ANON_KEY_AQUI') {
     console.warn('Supabase não configurado. A usar dados de demonstração.');
     loadDemoData();
     return;
@@ -1099,9 +1100,8 @@ async function submitForm() {
 
   if (!valid) return;
 
-  // Anti-spam simples: debounce por timestamp local
-  const lastSubmit = parseInt(localStorage.getItem('last_submit') || '0');
-  if (Date.now() - lastSubmit < 30000) {
+  // Anti-spam simples: debounce por variável em memória (compatível com sandbox)
+  if (window._lastSubmit && Date.now() - window._lastSubmit < 30000) {
     showToast('⏱ Aguarda 30 segundos entre submissões.', 'error');
     return;
   }
@@ -1135,6 +1135,7 @@ async function submitForm() {
     }
     renderAll();
     showToast('✦ Informação guardada (modo demo)', 'success');
+    window._lastSubmit = Date.now();
     resetForm();
     switchTab('list');
   } else {
@@ -1158,13 +1159,14 @@ async function submitForm() {
       }
 
       if (error) throw error;
-      localStorage.setItem('last_submit', Date.now().toString());
+      window._lastSubmit = Date.now();
       showToast('✦ Informação submetida com sucesso!', 'success');
       resetForm();
       switchTab('list');
     } catch (err) {
-      console.error(err);
-      showToast('✗ Erro ao submeter. Tenta novamente.', 'error');
+      console.error('Supabase error:', err);
+      const msg = err?.message || err?.error_description || JSON.stringify(err);
+      showToast('✗ ' + msg, 'error');
     }
   }
 
